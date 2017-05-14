@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="antlr4-runtime-4.5.3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/antlr4-runtime-4.5.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jgraph-5.13.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jgrapht-core-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jgrapht-demo-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jgrapht-ext-1.0.1-uber.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jgrapht-ext-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jgraphx-2.0.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
