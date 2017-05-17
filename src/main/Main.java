@@ -19,7 +19,8 @@ public class Main {
     public static final String OUTPUT_DIR = "results/";
 
     private static GraphFileLoader graphFileLoader = new GraphFileLoader();
-    private static IFlowPathFinder flowPathFinder = new SPEModifiedFlowPathFinder();
+    private static IFlowPathFinder SPEflowPathFinder = new SPEModifiedFlowPathFinder();
+    private static IFlowPathFinder LPEflowPathFinder = new LPEModifiedFlowPathFinder();
     private static ResultSaver resultSaver = new ResultSaver();
     private static SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd_hhmmss");
 
@@ -31,29 +32,40 @@ public class Main {
      *
      */
     public static void main(String[] args) throws IOException {
-        if(args.length != 2) {
-            System.out.println("Args: inputFile unitCount");
+        if(args.length != 3) {
+            System.out.println("Args: algorithm inputFile unitCount");
             return;
         }
-        String inputFile = args[0];
-        int unitCount = Integer.parseInt(args[1]);
+        String algorithm = args[0];
+        String inputFile = args[1];
+        int unitCount = Integer.parseInt(args[2]);
 
-        FlowPathParameters parameters = graphFileLoader.loadGraph(INPUT_DIR+inputFile, unitCount);
+        FlowPathParameters parameters = graphFileLoader.loadGraph(INPUT_DIR+inputFile, unitCount, algorithm);
         System.out.println("Finding flow paths...");
-        FlowPathResult flowPathResult = flowPathFinder.findFlowPaths(parameters);
+
+        FlowPathResult flowPathResult = null;
+
+        if (algorithm.equals("SPE")) {
+            flowPathResult = SPEflowPathFinder.findFlowPaths(parameters);
+        }
+        else if (algorithm.equals("LPE")) {
+            flowPathResult = LPEflowPathFinder.findFlowPaths(parameters);
+        }
+        else {
+            System.out.println("This algorithm is not supported");
+        }
         System.out.println("Finding flow paths done");
-        String outputFile = outputFile(inputFile, unitCount);
+        String outputFile = outputFile(inputFile, algorithm, unitCount);
         System.out.println("Saving results to "+outputFile+"...");
         resultSaver.saveResult(flowPathResult, outputFile);
         System.out.println("DONE");
-
     }
 
-    private static String outputFile(String inputFile, int unitCount) {
+    private static String outputFile(String inputFile, String algorithm, int unitCount) {
         return OUTPUT_DIR
                 +StringUtils.join(Arrays.asList(
                     removeExtension(inputFile),
-                    flowPathFinder.getAlgorithmName(),
+                    algorithm,
                     Integer.toString(unitCount),
                     df.format(new Date())), "_")
                 +".txt";

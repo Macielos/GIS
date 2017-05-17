@@ -7,7 +7,6 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +16,8 @@ import java.util.stream.Collectors;
  */
 public class GraphFileLoader {
 
-    public FlowPathParameters loadGraph(String filename, int unitCount) throws IOException {
+    public FlowPathParameters loadGraph(String filename, int unitCount, String algorithm) throws IOException {
+
         System.out.println("Loading graph from "+filename);
         List<String> lines = Files.lines(Paths.get(filename)).collect(Collectors.toList());
         if(lines.size() < 4) {
@@ -50,6 +50,10 @@ public class GraphFileLoader {
             }
             if(capacity > 0) {
                 graph.addEdge(edgeSource, edgeTarget, new EdgeWithCapacity(capacity));
+                if (algorithm.equals("SPE"))
+                    graph.setEdgeWeight(graph.getEdge(edgeSource, edgeTarget), 1);
+                if (algorithm.equals("LPE"))
+                    graph.setEdgeWeight(graph.getEdge(edgeSource, edgeTarget), -1);
             }
         }
         System.out.println("Graph loaded with "+graph.vertexSet().size()+" vertices, sending "+unitCount+" units from "+source+" to "+sink);
