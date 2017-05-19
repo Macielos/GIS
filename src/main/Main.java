@@ -24,14 +24,11 @@ public class Main {
     private static ResultSaver resultSaver = new ResultSaver();
     private static SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd_hhmmss");
 
-    /**
-     * TODO
-     * - generator grafow
-     * - ten drugi alg. od Pieńkosza
-     * - testy, porównanie wyników
-     *
-     */
+
+
     public static void main(String[] args) throws IOException {
+
+        /* wczytanie grafu z pliku */
         if(args.length != 3) {
             System.out.println("Args: algorithm inputFile unitCount");
             return;
@@ -45,16 +42,24 @@ public class Main {
 
         FlowPathResult flowPathResult = null;
 
+        /* zastosowanie algorytmu SPE */
         if (algorithm.equals("SPE")) {
             flowPathResult = SPEflowPathFinder.findFlowPaths(parameters);
         }
+
+        /* zastosowanie algorytmu LPE */
         else if (algorithm.equals("LPE")) {
             flowPathResult = LPEflowPathFinder.findFlowPaths(parameters);
         }
         else {
             System.out.println("This algorithm is not supported");
         }
+
         System.out.println("Finding flow paths done");
+        System.out.println("-----------");
+        System.out.println("Time required: " + flowPathResult.getTime() + "ms");
+
+        /* zapis wynikow do pliku */
         String outputFile = outputFile(inputFile, algorithm, unitCount);
         System.out.println("Saving results to "+outputFile+"...");
         resultSaver.saveResult(flowPathResult, outputFile);

@@ -2,11 +2,10 @@ package flowpathfinding;
 
 import graphs.EdgeWithCapacity;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 /**
  * Created by Maciek on 14.05.2017.
+ * Klasa reprezentujaca graf oraz liczbe jednostek przesylanych w trakcie dzialania algorytmu
  */
 public class FlowPathParameters {
 

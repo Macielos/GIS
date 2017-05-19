@@ -3,18 +3,16 @@ package results;
 import com.sun.deploy.util.StringUtils;
 import flowpathfinding.FlowPath;
 import flowpathfinding.FlowPathResult;
-import main.Main;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * Created by Maciek on 14.05.2017.
+ * Klasa zapisujaca uzyskane rezultaty do pliku
  */
 public class ResultSaver {
 

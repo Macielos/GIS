@@ -1,10 +1,10 @@
 package graphs;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 /**
  * Created by Maciek on 14.05.2017.
+ * Klasa reprezentujaca krawedz z okreslona przepustowoscia
  */
 public class EdgeWithCapacity extends DefaultWeightedEdge {
 
