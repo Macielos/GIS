@@ -42,17 +42,16 @@ public class Main {
 
         FlowPathResult flowPathResult = null;
 
-        /* zastosowanie algorytmu SPE */
-        if (algorithm.equals("SPE")) {
-            flowPathResult = SPEflowPathFinder.findFlowPaths(parameters);
-        }
-
-        /* zastosowanie algorytmu LPE */
-        else if (algorithm.equals("LPE")) {
-            flowPathResult = LPEflowPathFinder.findFlowPaths(parameters);
-        }
-        else {
-            System.out.println("This algorithm is not supported");
+        switch(algorithm) {
+            case "SPE":
+                flowPathResult = SPEflowPathFinder.findFlowPaths(parameters);
+                break;
+            case "LPE":
+                flowPathResult = LPEflowPathFinder.findFlowPaths(parameters);
+                break;
+            default:
+                System.out.println("This algorithm is not supported");
+                return;
         }
 
         System.out.println("Finding flow paths done");
