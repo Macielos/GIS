@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Created by Maciek on 14.05.2017.
+ * Klasa reprezentujaca pojedyncza sciezke od s do t i liczbe przesylanych nia jednostek w wyniku dzialania algorytmu
+ * SPE/LPE
  */
 public class FlowPath {
 
