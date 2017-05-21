@@ -6,5 +6,4 @@ package flowpathfinding;
 public interface IFlowPathFinder {
 
     FlowPathResult findFlowPaths(FlowPathParameters parameters);
-    String getAlgorithmName();
 }

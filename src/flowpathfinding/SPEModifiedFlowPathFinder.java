@@ -1,7 +1,7 @@
 package flowpathfinding;
 
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.alg.shortestpath.BellmanFordShortestPath;
 import graphs.EdgeWithCapacity;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class SPEModifiedFlowPathFinder implements IFlowPathFinder {
         /* dopoki nie przeslane zostaly wszystkie jednostki */
         while(unitsLeft > 0) {
 
-            GraphPath<Integer, EdgeWithCapacity> path = DijkstraShortestPath.findPathBetween(parameters.getGraph(), parameters.getSource(), parameters.getSink());
+            GraphPath<Integer, EdgeWithCapacity> path = BellmanFordShortestPath.findPathBetween(parameters.getGraph(), parameters.getSource(), parameters.getSink());
 
             if(path == null) {
                 /* nie istnieje droga - koniec dzialania algorytmu */
@@ -61,8 +61,4 @@ public class SPEModifiedFlowPathFinder implements IFlowPathFinder {
         return new FlowPathResult(unitsLeft, flowPaths,  System.currentTimeMillis() - startTime);
     }
 
-    @Override
-    public String getAlgorithmName() {
-        return "SPEmodified";
-    }
 }

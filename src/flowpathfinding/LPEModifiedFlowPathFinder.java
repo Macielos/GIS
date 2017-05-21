@@ -27,7 +27,7 @@ public class LPEModifiedFlowPathFinder  implements IFlowPathFinder {
 
         /* zmienne pomocnicze do znajdywania najkrotszej sciezki zawierajaca krawedz z najdluzszej sciezki */
 
-        ArrayList<EdgeWithCapacity> choosenPath = new ArrayList<EdgeWithCapacity>();
+        ArrayList<EdgeWithCapacity> chosenPath = new ArrayList<EdgeWithCapacity>();
 
         /* dlugosc dekompozycji */
         int decompositionLength = 0;
@@ -55,9 +55,9 @@ public class LPEModifiedFlowPathFinder  implements IFlowPathFinder {
                 Integer u = parameters.getGraph().getEdgeSource(e);
                 Integer v = parameters.getGraph().getEdgeTarget(e);
 
-                DijkstraShortestPath dijkstra1 = new DijkstraShortestPath(parameters.getGraph());
-                GraphPath a = dijkstra1.getPath(parameters.getSource(), u);
-                GraphPath b = dijkstra1.getPath(v, parameters.getSink());
+                BellmanFordShortestPath bellmanFord1 = new BellmanFordShortestPath(parameters.getGraph());
+                GraphPath a = bellmanFord1.getPath(parameters.getSource(), u);
+                GraphPath b = bellmanFord1.getPath(v, parameters.getSink());
 
                 ArrayList<EdgeWithCapacity> path = new ArrayList<EdgeWithCapacity>();
 
@@ -69,9 +69,9 @@ public class LPEModifiedFlowPathFinder  implements IFlowPathFinder {
                     path.add(e2);
                 }
 
-                /* wybierz najkrotsza ze znalezionych sciezek */
-                if (path.size() <= pathLenght) {
-                    choosenPath = path;
+                /* wybierz najdluzsza ze znalezionych sciezek */
+                if (path.size() >= pathLenght) {
+                    chosenPath = path;
                     pathLenght = path.size();
                 }
 
@@ -82,16 +82,16 @@ public class LPEModifiedFlowPathFinder  implements IFlowPathFinder {
             }
 
         /* przepustowosc sciezki to min z przepustowosci wszystkich krawedzi w sciezce */
-            int pathCapacity = Math.min(choosenPath.stream().map(e -> e.getCapacity()).min(Comparator.naturalOrder()).orElse(0), unitsLeft);
+            int pathCapacity = Math.min(chosenPath.stream().map(e -> e.getCapacity()).min(Comparator.naturalOrder()).orElse(0), unitsLeft);
             if(pathCapacity > 0) {
                 List<Integer> vertexList = new ArrayList<Integer>();
-                choosenPath.forEach(e -> vertexList.add(e.getEdgeSource()));
+                chosenPath.forEach(e -> vertexList.add(e.getEdgeSource()));
                 vertexList.add(parameters.getSink());
                 flowPaths.add(new FlowPath(vertexList, pathCapacity));
             }
 
             /* redukcja przepustowosci o to, co zostalo przeslane w tej iteracji */
-            for(EdgeWithCapacity e: choosenPath) {
+            for(EdgeWithCapacity e: chosenPath) {
                 e.setCapacity(e.getCapacity() - pathCapacity);
                 if(e.getCapacity() == 0) {
                     parameters.getGraph().removeEdge(e);
@@ -106,8 +106,4 @@ public class LPEModifiedFlowPathFinder  implements IFlowPathFinder {
         return new FlowPathResult(unitsLeft, flowPaths, System.currentTimeMillis() - startTime);
     }
 
-    @Override
-    public String getAlgorithmName() {
-        return "LPEmodified";
-    }
 }

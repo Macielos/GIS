@@ -76,6 +76,6 @@ public class GraphFileLoader {
         System.out.println("Expected lowest decomposition length: "+  capacitySum/unitCount);
         System.out.println("-----------");
 
-        return new FlowPathParameters(graph, source, sink, unitCount);
+        return new FlowPathParameters(graph, source, sink, unitCount, algorithm);
     }
 }
